@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: 'winter.battlesnake::lang.models.snaketemplate.label'
+
+# Model Form Field configuration
+form: $/winter/battlesnake/models/snaketemplate/fields.yaml
+
+# Model Class name
+modelClass: Winter\Battlesnake\Models\SnakeTemplate
+
+# Default redirect location
+defaultRedirect: winter/battlesnake/snaketemplates
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: winter/battlesnake/snaketemplates/update/:id
+    redirectClose: winter/battlesnake/snaketemplates
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: winter/battlesnake/snaketemplates
+    redirectClose: winter/battlesnake/snaketemplates
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title

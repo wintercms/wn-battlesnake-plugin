@@ -1,0 +1,6 @@
+1.0.0:
+    - 'First version of Battlesnake'
+    - v1.0.0/create_games_table.php
+    - v1.0.0/create_turns_table.php
+    - v1.0.0/create_snakes_table.php
+    - v1.0.0/create_snake_templates_table.php

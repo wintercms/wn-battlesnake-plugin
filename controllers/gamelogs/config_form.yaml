@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: 'winter.battlesnake::lang.models.gamelog.label'
+
+# Model Form Field configuration
+form: $/winter/battlesnake/models/gamelog/fields.yaml
+
+# Model Class name
+modelClass: Winter\Battlesnake\Models\GameLog
+
+# Default redirect location
+defaultRedirect: winter/battlesnake/gamelogs
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: winter/battlesnake/gamelogs/update/:id
+    redirectClose: winter/battlesnake/gamelogs
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: winter/battlesnake/gamelogs
+    redirectClose: winter/battlesnake/gamelogs
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title

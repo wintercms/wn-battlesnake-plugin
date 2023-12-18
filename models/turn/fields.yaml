@@ -1,0 +1,22 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    turn:
+        label: 'winter.battlesnake::lang.models.turn.turn'
+        disabled: true
+    board_image:
+        label: 'winter.battlesnake::lang.models.turn.board_image'
+        span: auto
+        type: mediafinder
+        mode: image
+        disabled: true
+    board_string:
+        label: 'winter.battlesnake::lang.models.turn.board_string'
+        span: auto
+        type: partial
+        path: $/winter/battlesnake/models/turn/column.board_string.php
+    replayTurn:
+        path: $/winter/battlesnake/models/turn/btn.replay.php
+        type: partial

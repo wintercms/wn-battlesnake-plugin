@@ -1,0 +1,63 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Name
+        type: text
+        span: left
+    slug@create:
+        label: Slug
+        type: text
+        span: right
+        preset:
+            field: name
+            type: slug
+    slug:
+        label: Slug
+        type: text
+        span: right
+        context: [update, preview]
+        disabled: true
+
+    metadata[password]:
+        label: Password
+        type: sensitive
+        span: full
+
+tabs:
+    fields:
+        code:
+            type: codeeditor
+            size: huge
+            span: full
+            tab: Code
+            stretch: true
+            language: php
+
+        metadata[customizations]:
+            type: nestedform
+            tab: Settings
+            usePanelStyles: false
+            form:
+                fields:
+                    head:
+                        label: Head
+                        type: dropdown
+                        span: auto
+                        default: default
+                    color:
+                        label: Color
+                        type: colorpicker
+                        default: "#fc2fa4"
+                        span: auto
+                    tail:
+                        label: Tail
+                        type: dropdown
+                        span: auto
+                        default: default
+                    author:
+                        label: Author
+                        type: text
+                        span: auto

@@ -1,0 +1,8 @@
+turns:
+    label: Turn
+    view:
+        list: $/winter/battlesnake/models/turn/columns.yaml
+        form: $/winter/battlesnake/models/turn/fields.yaml
+    manage:
+        list: $/winter/battlesnake/models/turn/columns.yaml
+        form: $/winter/battlesnake/models/turn/fields.yaml

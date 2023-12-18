@@ -1,0 +1,18 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    game_id:
+        label: 'winter.battlesnake::lang.models.general.id'
+        disabled: true
+        span: auto
+    created_at:
+        label: Date
+        type: datepicker
+        span: auto
+        disabled: true
+    turns:
+        type: relationmanager
+        label: Turns
+        span: full

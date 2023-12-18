@@ -1,0 +1,35 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    turn:
+        label: 'winter.battlesnake::lang.models.turn.turn'
+        searchable: true
+        sortable: true
+        type: number
+    # board_image:
+    #     label: 'winter.battlesnake::lang.models.turn.board_image'
+    #     type: image
+    #     invisible: true
+    board_string:
+        label: 'winter.battlesnake::lang.models.turn.board_string'
+        type: partial
+        path: $/winter/battlesnake/models/turn/column.board_string.php
+        clickable: false
+    move:
+        label: 'winter.battlesnake::lang.models.turn.move'
+        searchable: true
+        sortable: true
+    created_at:
+        label: 'winter.battlesnake::lang.models.general.created_at'
+        type: datetime
+        searchable: true
+        sortable: true
+        invisible: true
+    updated_at:
+        label: 'winter.battlesnake::lang.models.general.updated_at'
+        type: datetime
+        searchable: true
+        invisible: true
+        sortable: true

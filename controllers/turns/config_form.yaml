@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: 'winter.battlesnake::lang.models.turn.label'
+
+# Model Form Field configuration
+form: $/winter/battlesnake/models/turn/fields.yaml
+
+# Model Class name
+modelClass: Winter\Battlesnake\Models\Turn
+
+# Default redirect location
+defaultRedirect: winter/battlesnake/turns
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: winter/battlesnake/turns/update/:id
+    redirectClose: winter/battlesnake/turns
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: winter/battlesnake/turns
+    redirectClose: winter/battlesnake/turns
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title
