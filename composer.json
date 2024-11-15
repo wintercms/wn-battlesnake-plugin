@@ -1,0 +1,28 @@
+{
+    "name": "winter/wn-battlesnake-plugin",
+    "type": "winter-plugin",
+    "description": "Playground for building Battlesnakes in Winter CMS",
+    "homepage": "https://github.com/wintercms/wn-battlesnake-plugin",
+    "keywords": ["cms", "wintercms", "battlesnake"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luke Towers",
+            "email": "wintercms@luketowers.ca"
+        },
+        {
+            "name": "Winter CMS Maintainers",
+            "homepage": "https://wintercms.com",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/wintercms/wn-battlesnake-plugin/issues",
+        "discord": "https://discord.gg/D5MFSPH6Ux",
+        "source": "https://github.com/wintercms/wn-battlesnake-plugin"
+    },
+    "require": {
+        "php": ">=7.2",
+        "composer/installers": "~1.11"
+    }
+}
