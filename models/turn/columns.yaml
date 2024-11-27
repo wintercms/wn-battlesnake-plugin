@@ -8,10 +8,12 @@ columns:
         searchable: true
         sortable: true
         type: number
-    # board_image:
-    #     label: 'winter.battlesnake::lang.models.turn.board_image'
-    #     type: image
-    #     invisible: true
+    board_image:
+        label: 'winter.battlesnake::lang.models.turn.board_image'
+        type: image
+        invisible: true
+        width: 400
+        height: 400
     board_string:
         label: 'winter.battlesnake::lang.models.turn.board_string'
         type: partial

@@ -2,7 +2,7 @@
 
 namespace Winter\Battlesnake\Models;
 
-use Model;
+use Winter\Storm\Database\Model;
 
 /**
  * GameLog Model

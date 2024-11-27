@@ -21,7 +21,7 @@ class Battlesnake
     public array $customizations;
     public Board $board;
 
-    public function __construct(array $data = [], Board $board)
+    public function __construct(array $data, Board $board)
     {
         $this->board = $board;
         $this->id = $data['id'] ?? '';

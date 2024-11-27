@@ -2,7 +2,7 @@
 
 namespace Winter\Battlesnake\Models;
 
-use Model;
+use Winter\Storm\Database\Model;
 
 /**
  * Snake Model
@@ -10,6 +10,7 @@ use Model;
 class Snake extends Model
 {
     use \Winter\Storm\Database\Traits\Validation;
+
 
     /**
      * @var string The database table used by the model.
@@ -39,7 +40,8 @@ class Snake extends Model
     /**
      * @var array Attributes to be cast to JSON
      */
-    protected $jsonable = [];
+    protected $jsonable = [
+    ];
 
     /**
      * @var array Attributes to be appended to the API representation of the model (ex. toArray())

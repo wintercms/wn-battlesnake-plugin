@@ -20,18 +20,13 @@ class Snake
     public array $options = [
         'logTurns' => true,
     ];
+    public array $info = [];
+    public array $data = [];
 
-    public function __construct(array $state = [], array $options = [])
+    public function __construct(array $state, array $options = [])
     {
         $this->parseState($state);
         $this->options = array_merge($this->options, $options);
-    }
-
-    public static function getSnake(string $snake, string $password, bool $logTurns = true): static
-    {
-        return SnakeTemplate::findByCredentials($snake, $password);
-
-        return new static;
     }
 
     protected function parseState(array $data): void
@@ -44,9 +39,10 @@ class Snake
         $this->board = new Board($data['board'] ?? []);
         $this->you = new Battlesnake($data['you'] ?? [], $this->board);
         $this->turn = $data['turn'] ?? 0;
+        $this->data = $data;
     }
 
-    protected function logTurn(array $in, array $out): void
+    protected function logTurn(array $out): void
     {
         if (!$this->options['logTurns']) {
             return;
@@ -59,8 +55,8 @@ class Snake
         Turn::create([
             'game_id' => $this->game->id,
             'turn' => $this->turn,
-            'board' => $in['board'],
-            'request' => $in,
+            'board' => $this->data['board'],
+            'request' => $this->data,
             'move' => $out['move'],
         ]);
     }
@@ -70,7 +66,7 @@ class Snake
      */
     public function info(): array
     {
-        return [
+        return $this->info ?? [
             "apiversion" => "1",
             "author" => "luketowers",
             "color" => "#3498db",
@@ -83,14 +79,8 @@ class Snake
     /**
      * @see https://docs.battlesnake.com/api/requests/start
      */
-    public function start(array $data): void
+    public function start(): void
     {
-        // $logPath = storage_path('logs/battlesnake.log');
-        // // file_put_contents($logPath, json_encode($data, JSON_PRETTY_PRINT));
-        // $data = json_decode(file_get_contents($logPath), true);
-
-        $this->parseState($data);
-
         $now = now()->toDateTimeString();
         GameLog::insert([
             'game_id' => $this->game->id,
@@ -129,19 +119,32 @@ class Snake
     /**
      * @see https://docs.battlesnake.com/api/requests/move
      */
-    public function move(array $data): array
+    public function move(): array
     {
-        // $logPath = storage_path('logs/battlesnake.log');
-        // // // file_put_contents($logPath, json_encode($data, JSON_PRETTY_PRINT));
-        // $data = json_decode(file_get_contents($logPath), true);
-        $this->parseState($data);
-
         // Find where we are
         $x = $this->you->head['x'];
         $y = $this->you->head['y'];
+        $move = $this->getNextMove($x, $y);
 
+        $response = [
+            'move' => $move,
+            'shout' => Str::limit(Inspiring::quotes()->random(), 253),
+        ];
+
+        $this->logTurn($response);
+
+        if ($response['move'] === 'death') {
+            $response['move'] = 'up';
+        }
+
+        return $response;
+    }
+
+    public function getNextMove($x, $y): string
+    {
         // Target the closest food
-        $target = $this->board->food[array_shift($this->getFoodByDistance())];
+        $food = $this->getFoodByDistance();
+        $target = $this->board->food[array_shift($food)];
 
         // Pick neighbour cells
         $neighbors = [
@@ -172,19 +175,11 @@ class Snake
         ksort($moves);
         $move = array_shift($moves);
 
-        $response = [
-            'move' => $move,
-            'shout' => Str::limit(Inspiring::quotes()->random(), 253),
-        ];
+        if (is_null($move)) {
+            $move = 'death';
+        }
 
-        $this->logTurn($data, $response);
-
-        return $response;
-    }
-
-    protected function getNextMove(array $currentPosition)
-    {
-
+        return $move;
     }
 
     /**
@@ -205,10 +200,8 @@ class Snake
     /**
      * @see https://docs.battlesnake.com/api/requests/end
      */
-    public function end(array $data): void
+    public function end(): void
     {
-        $this->parseState($data);
-
-        $this->logTurn($data, ['move' => 'end']);
+        $this->logTurn(['move' => 'end']);
     }
 }

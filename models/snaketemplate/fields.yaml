@@ -26,6 +26,12 @@ fields:
         type: sensitive
         span: full
 
+    _url@update:
+        label: URL
+        valueFrom: url
+        type: sensitive
+        span: auto
+
 tabs:
     fields:
         code:

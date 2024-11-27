@@ -3,7 +3,7 @@
 namespace Winter\Battlesnake\Models;
 
 use Cms\Classes\MediaLibrary;
-use Model;
+use Winter\Storm\Database\Model;
 use Winter\Battlesnake\Classes\Snake;
 use Winter\Battlesnake\Objects\Board;
 
@@ -53,12 +53,17 @@ class Turn extends Model
 
     public function afterCreate()
     {
-        $this->board_object->draw(storage_path('app/media/battlesnake/' . $this->game_id . '/turn-' . $this->turn . '.png'));
+        $this->board_object->draw(storage_path('app/media/' . $this->board_image));
+    }
+
+    protected function getPaddedTurnAttribute(): string
+    {
+        return str_pad($this->turn, 4, 0, STR_PAD_LEFT);
     }
 
     public function getBoardImageAttribute(): string
     {
-        return 'battlesnake/' . $this->game_id . '/turn-' . $this->turn . '.png';
+        return 'battlesnake/' . $this->game_id . '/turn-' . $this->padded_turn . '.png';
     }
 
     public function getBoardStringAttribute(): string
@@ -68,6 +73,9 @@ class Turn extends Model
 
     public function replay(): array
     {
-        return Snake::getSnake('snake', 'pass', false)->move($this->request);
+        return SnakeTemplate::findByCredentials(
+            'snake',
+            'password',
+        )->snake($this->request, ['logTurns' => false])->move();
     }
 }
