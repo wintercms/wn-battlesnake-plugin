@@ -4,3 +4,11 @@
     - v1.0.0/create_turns_table.php
     - v1.0.0/create_snakes_table.php
     - v1.0.0/create_snake_templates_table.php
+1.0.1:
+    - 'Add result column to games table'
+    - v1.0.1/add_game_result.php
+1.0.2:
+    - 'Add multi-snake support with game participants tracking'
+    - v1.0.2/create_game_participants_table.php
+    - v1.0.2/add_snake_template_to_turns.php
+    - v1.0.2/remove_result_from_games.php

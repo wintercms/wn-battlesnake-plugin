@@ -1,0 +1,146 @@
+tabs:
+    icons:
+        Growth: 'icon-utensils'
+        'Board Area': 'icon-table-cells'
+        'Opponents': 'icon-person-military-rifle'
+
+    fields:
+        healthThreshold:
+            label: Health Threshold
+            tab: Growth
+            commentAbove: When health drops below this value, the snake prioritizes finding food over maximizing space. Higher values make the snake greedier.
+            type: range
+            span: auto
+            default: 50
+            min: 0
+            max: 100
+            step: 5
+        foodWeight:
+            label: Food Weight
+            tab: Growth
+            commentAbove: Multiplier for food-seeking behavior when hungry. Higher values make the snake more determined to reach food, even if it means taking riskier paths.
+            type: range
+            span: auto
+            default: 1
+            min: 0
+            max: 2
+            step: 0.1
+
+        spaceWeight:
+            label: Space Weight
+            tab: Board Area
+            commentAbove: Multiplier for space-maximizing behavior when not hungry. Higher values make the snake prefer directions with more total reachable area.
+            type: range
+            span: auto
+            default: 1
+            min: 0
+            max: 2
+            step: 0.1
+        escapeRouteWeight:
+            label: Escape Route Weight
+            tab: Board Area
+            commentAbove: Bonus for moves that have multiple escape routes. Higher values make the snake avoid dead ends and prefer positions with 2-3 possible exits.
+            type: range
+            span: auto
+            default: 2
+            min: 0
+            max: 5
+            step: 0.5
+        opennessWeight:
+            label: Openness Weight
+            tab: Board Area
+            commentAbove: Bonus for wide open spaces over narrow corridors. Higher values make the snake prefer directions where it can move freely in multiple directions immediately.
+            type: range
+            span: auto
+            default: 1
+            min: 0
+            max: 2
+            step: 0.1
+        centerPreference:
+            label: Center Preference
+            tab: Board Area
+            commentAbove: How strongly the snake prefers moving toward the board center. Higher values help avoid getting trapped in corners but may lead to more confrontations.
+            type: range
+            span: auto
+            default: 0.5
+            min: 0
+            max: 1
+            step: 0.1
+        trapAvoidance:
+            label: Trap Avoidance
+            tab: Board Area
+            commentAbove: Penalty for entering positions with few escape routes. Higher values make the snake heavily avoid moves with 0-1 exits, preventing death traps.
+            type: range
+            span: auto
+            default: 1
+            min: 0
+            max: 2
+            step: 0.1
+        lookaheadDepth:
+            label: Lookahead Depth
+            tab: Board Area
+            commentAbove: How many turns ahead to predict tail movement. Higher values help recognize when following a tail will create space, but increases computation.
+            type: range
+            span: auto
+            default: 2
+            min: 0
+            max: 4
+            step: 1
+
+        targetLead:
+            label: Target Lead
+            tab: Opponents
+            commentAbove: How many units bigger than the largest opponent the snake tries to be. Higher values make the snake eat more aggressively to build/maintain a size advantage.
+            type: range
+            span: auto
+            default: 2
+            min: 0
+            max: 5
+            step: 1
+        growthPriority:
+            label: Growth Priority
+            tab: Opponents
+            commentAbove: Multiplier for size-advantage seeking. Higher values raise the food threshold more aggressively when below the target lead.
+            type: range
+            span: auto
+            default: 0.5
+            min: 0
+            max: 1
+            step: 0.1
+        aggression:
+            label: Aggression
+            tab: Opponents
+            commentAbove: How aggressively the snake hunts smaller opponents. At 0, the snake ignores other snakes. At 1, it actively pursues head-to-head collisions with smaller snakes.
+            type: range
+            span: auto
+            default: 0
+            min: 0
+            max: 1
+            step: 0.1
+        enemyPredictionWeight:
+            label: Enemy Prediction
+            tab: Opponents
+            commentAbove: How much to factor in where enemies might move next. Higher values make the snake more cautious about spaces enemies could reach, but may be overly defensive.
+            type: range
+            span: auto
+            default: 0.3
+            min: 0
+            max: 1
+            step: 0.1
+        trappingAggression:
+            label: Trapping Aggression
+            tab: Opponents
+            commentAbove: Bonus for moves that reduce opponents' accessible area. Only active when we're the largest snake. Higher values make the snake actively cut off opponents' escape routes.
+            type: range
+            span: auto
+            default: 0.5
+            min: 0
+            max: 1
+            step: 0.1
+        avoidLargerSnakes:
+            label: Avoid Larger Snakes
+            tab: Opponents
+            commentAbove: When enabled, the snake avoids moving adjacent to larger snake heads to prevent losing head-to-head collisions.
+            type: checkbox
+            span: auto
+            default: true

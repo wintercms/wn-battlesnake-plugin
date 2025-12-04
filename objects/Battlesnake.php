@@ -13,7 +13,7 @@ class Battlesnake
     public string $name;
     public string $health;
     public array $body;
-    public int $latency;
+    public mixed $latency;
     public array $head;
     public int $length;
     public string $shout;

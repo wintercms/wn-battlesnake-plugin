@@ -27,7 +27,8 @@ class Plugin extends PluginBase
      */
     public function register(): void
     {
-
+        $this->registerConsoleCommand('battlesnake.play', \Winter\Battlesnake\Console\PlayGame::class);
+        $this->registerConsoleCommand('battlesnake.build-board', \Winter\Battlesnake\Console\BuildBoard::class);
     }
 
     /**
@@ -36,18 +37,6 @@ class Plugin extends PluginBase
     public function boot(): void
     {
 
-    }
-
-    /**
-     * Registers any frontend components implemented in this plugin.
-     */
-    public function registerComponents(): array
-    {
-        return []; // Remove this line to activate
-
-        return [
-            'Winter\Battlesnake\Components\MyComponent' => 'myComponent',
-        ];
     }
 
     /**

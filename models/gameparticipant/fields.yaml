@@ -1,0 +1,42 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    snakeTemplate[name]:
+        label: 'winter.battlesnake::lang.models.gameparticipant.snake'
+        disabled: true
+        span: auto
+    result:
+        label: 'winter.battlesnake::lang.models.gameparticipant.result'
+        disabled: true
+        span: auto
+    turns_survived:
+        label: 'winter.battlesnake::lang.models.gameparticipant.turns_survived'
+        type: number
+        disabled: true
+        span: auto
+    final_length:
+        label: 'winter.battlesnake::lang.models.gameparticipant.final_length'
+        type: number
+        disabled: true
+        span: auto
+    final_health:
+        label: 'winter.battlesnake::lang.models.gameparticipant.final_health'
+        type: number
+        disabled: true
+        span: auto
+    food_eaten:
+        label: 'winter.battlesnake::lang.models.gameparticipant.food_eaten'
+        type: number
+        disabled: true
+        span: auto
+    kills:
+        label: 'winter.battlesnake::lang.models.gameparticipant.kills'
+        type: number
+        disabled: true
+        span: auto
+    death_cause:
+        label: 'winter.battlesnake::lang.models.gameparticipant.death_cause'
+        disabled: true
+        span: auto

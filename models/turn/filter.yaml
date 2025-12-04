@@ -1,0 +1,10 @@
+# ===================================
+#  Filter Scope Definitions
+# ===================================
+
+scopes:
+    snake_id:
+        label: 'winter.battlesnake::lang.models.turn.snake'
+        type: group
+        conditions: snake_id in (:filtered)
+        options: []

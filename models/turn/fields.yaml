@@ -3,20 +3,34 @@
 # ===================================
 
 fields:
+    snake_name:
+        label: Snake
+        span: left
+        disabled: true
+
     turn:
-        label: 'winter.battlesnake::lang.models.turn.turn'
+        label: Turn
+        span: right
         disabled: true
-    board_image:
-        label: 'winter.battlesnake::lang.models.turn.board_image'
-        span: auto
-        type: mediafinder
-        mode: image
-        disabled: true
-    board_string:
-        label: 'winter.battlesnake::lang.models.turn.board_string'
-        span: auto
+
+    _board_state:
         type: partial
-        path: $/winter/battlesnake/models/turn/column.board_string.php
-    replayTurn:
-        path: $/winter/battlesnake/models/turn/btn.replay.php
+        path: $/winter/battlesnake/models/turn/_board_state
+
+    _move_analysis:
         type: partial
+        path: $/winter/battlesnake/models/turn/_move_analysis
+
+    strategy:
+        label: Strategy Values
+        type: nestedform
+        usePanelStyles: false
+        form: $/winter/battlesnake/models/snaketemplate/fields.strategy.yaml
+
+    replay_button:
+        type: button
+        buttonLabel: Re-evaluate with Current Code
+        buttonType: primary
+        request: onReplayTurn
+        icon: icon-refresh
+        loading: Re-evaluating turn...

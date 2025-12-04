@@ -11,7 +11,6 @@ class Snake extends Model
 {
     use \Winter\Storm\Database\Traits\Validation;
 
-
     /**
      * @var string The database table used by the model.
      */

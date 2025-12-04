@@ -11,7 +11,7 @@
 |
 */
 
-uses(\System\Tests\Bootstrap\TestCase::class)->in('Feature');
+uses(\PHPUnit\Framework\TestCase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------

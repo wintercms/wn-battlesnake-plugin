@@ -7,12 +7,39 @@ fields:
         label: 'winter.battlesnake::lang.models.general.id'
         disabled: true
         span: auto
+
     created_at:
         label: Date
         type: datepicker
         span: auto
         disabled: true
-    turns:
-        type: relationmanager
-        label: Turns
+
+    toolbar:
+        type: partial
         span: full
+
+secondaryTabs:
+    icons:
+        'Replay': 'icon-play'
+        'winter.battlesnake::lang.models.gamelog.participants': 'icon-users'
+        'Turns': 'icon-clock'
+
+    stretch: true
+    paneCssClass:
+        'Replay': 'padded-pane'
+
+    fields:
+        _board_viewer:
+            tab: Replay
+            type: partial
+            path: $/winter/battlesnake/controllers/gamelogs/_board_viewer
+            span: full
+        participants:
+            tab: 'winter.battlesnake::lang.models.gamelog.participants'
+            type: relationmanager
+            span: full
+        turns:
+            tab: Turns
+            type: relationmanager
+            readOnly: false
+            span: full

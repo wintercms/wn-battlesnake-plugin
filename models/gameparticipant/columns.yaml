@@ -1,0 +1,40 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    snake_name:
+        label: 'winter.battlesnake::lang.models.gameparticipant.snake'
+        searchable: true
+        sortable: true
+    result:
+        label: 'winter.battlesnake::lang.models.gameparticipant.result'
+        searchable: true
+        sortable: true
+    turns_survived:
+        label: 'winter.battlesnake::lang.models.gameparticipant.turns_survived'
+        type: number
+        sortable: true
+    final_length:
+        label: 'winter.battlesnake::lang.models.gameparticipant.final_length'
+        type: number
+        sortable: true
+    final_health:
+        label: 'winter.battlesnake::lang.models.gameparticipant.final_health'
+        type: number
+        sortable: true
+        invisible: true
+    food_eaten:
+        label: 'winter.battlesnake::lang.models.gameparticipant.food_eaten'
+        type: number
+        sortable: true
+        invisible: true
+    kills:
+        label: 'winter.battlesnake::lang.models.gameparticipant.kills'
+        type: number
+        sortable: true
+        invisible: true
+    death_cause:
+        label: 'winter.battlesnake::lang.models.gameparticipant.death_cause'
+        sortable: true
+        invisible: true

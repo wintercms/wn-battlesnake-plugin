@@ -21,18 +21,21 @@ fields:
         context: [update, preview]
         disabled: true
 
-    metadata[password]:
-        label: Password
-        type: sensitive
+    toolbar:
+        type: partial
         span: full
 
-    _url@update:
-        label: URL
-        valueFrom: url
-        type: sensitive
-        span: auto
+secondaryTabs:
+    icons:
+        'Code': 'icon-code'
+        'Settings': 'icon-cog'
+        'Behavior': 'icon-code-branch'
 
-tabs:
+    stretch: true
+    paneCssClass:
+        'Settings': 'padded-pane'
+        'Behavior': 'padded-pane'
+
     fields:
         code:
             type: codeeditor
@@ -41,6 +44,19 @@ tabs:
             tab: Code
             stretch: true
             language: php
+
+        _reset_strategy:
+            type: button
+            tab: Behavior
+            buttonLabel: Reset to Defaults
+            icon: icon-refresh
+            handler: onResetStrategy
+
+        metadata[strategy]:
+            type: nestedform
+            tab: Behavior
+            usePanelStyles: false
+            form: $/winter/battlesnake/models/snaketemplate/fields.strategy.yaml
 
         metadata[customizations]:
             type: nestedform
@@ -67,3 +83,9 @@ tabs:
                         label: Author
                         type: text
                         span: auto
+
+        metadata[password]:
+            label: Password
+            type: sensitive
+            tab: Settings
+            span: auto

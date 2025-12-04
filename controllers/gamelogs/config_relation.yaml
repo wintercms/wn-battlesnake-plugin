@@ -1,8 +1,23 @@
+participants:
+    label: winter.battlesnake::lang.models.gameparticipant.label
+    readOnly: true
+    view:
+        list: $/winter/battlesnake/models/gameparticipant/columns.yaml
+        form: $/winter/battlesnake/models/gameparticipant/fields.yaml
+        defaultSort: turns_survived
+    manage:
+        list: $/winter/battlesnake/models/gameparticipant/columns.yaml
+        form: $/winter/battlesnake/models/gameparticipant/fields.yaml
+
 turns:
     label: Turn
     view:
         list: $/winter/battlesnake/models/turn/columns.yaml
         form: $/winter/battlesnake/models/turn/fields.yaml
+        filter: $/winter/battlesnake/models/turn/filter.yaml
+        toolbarButtons: false
+        showCheckboxes: false
+        recordsPerPage: 20
     manage:
         list: $/winter/battlesnake/models/turn/columns.yaml
         form: $/winter/battlesnake/models/turn/fields.yaml

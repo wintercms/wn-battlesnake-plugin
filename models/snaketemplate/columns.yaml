@@ -3,9 +3,30 @@
 # ===================================
 
 columns:
-    id:
-        label: 'winter.battlesnake::lang.models.general.id'
+    name:
+        label: Name
         searchable: true
+    metadata[customizations][head]:
+        label: Head
+        type: text
+        searchable: false
+        sortable: false
+    metadata[customizations][color]:
+        label: Color
+        type: partial
+        path: $/winter/battlesnake/models/snaketemplate/column.color.php
+        searchable: false
+        sortable: false
+    metadata[customizations][tail]:
+        label: Tail
+        type: text
+        searchable: false
+        sortable: false
+    metadata[customizations][author]:
+        label: Author
+        type: text
+        searchable: false
+        sortable: false
     created_at:
         label: 'winter.battlesnake::lang.models.general.created_at'
         type: datetime

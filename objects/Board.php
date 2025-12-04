@@ -9,17 +9,24 @@ class Board
 {
     use \Winter\Battlesnake\Traits\HasCoordinates;
 
-    public const CHAR_SPACE = "_"; // https://en.wikipedia.org/wiki/Braille_pattern_dots-0
-    public const CHAR_FOOD = "f";
-    public const CHAR_HAZARD = "x";
-    public const CHAR_SNAKE = "s";
-    public const CHAR_SNAKE_TAIL = "t";
-    public const CHAR_SNAKE_HEAD = "h";
+    // AsciiBoard-compatible symbols
+    public const CHAR_SPACE = ".";
+    public const CHAR_FOOD = "F";
+    public const CHAR_HAZARD = "H";
+    // Your snake
+    public const CHAR_YOU_HEAD = "Y";
+    public const CHAR_YOU_BODY = "y";
+    // Enemy snakes use A/a, B/b, C/c, etc.
+    public const ENEMY_LETTERS = ['A', 'B', 'C', 'D', 'E', 'G', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z'];
+
+    // Legacy constants for danger detection (checks both formats)
     public const DANGER_CHARS = [
-        self::CHAR_HAZARD,
-        self::CHAR_SNAKE_HEAD,
-        self::CHAR_SNAKE,
-        self::CHAR_SNAKE_TAIL,
+        'H', 'x',           // hazard
+        'Y', 'y', 'h', 's', 't', // snake parts
+        'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'G', 'g',
+        'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n',
+        'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 'T', 'U', 'u',
+        'V', 'v', 'W', 'w', 'X', 'Z', 'z',
     ];
 
     public int $height;
@@ -27,6 +34,7 @@ class Board
     public array $food;
     public array $hazards;
     public array $snakes = [];
+    public ?string $youId = null;
 
     public function __construct(array $data = [])
     {
@@ -136,7 +144,7 @@ class Board
 
         $directory = dirname($output);
         if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
+            @mkdir($directory, 0755, true);
         }
         imagepng($img, $output);
         imagedestroy($img);
@@ -150,27 +158,48 @@ class Board
             return [];
         }
 
-        foreach ([
-            'food' => static::CHAR_FOOD,
-            'hazards' => static::CHAR_HAZARD,
-            'snakes' => static::CHAR_SNAKE,
-        ] as $key => $value) {
-            foreach ($this->{$key} as $element) {
-                if ($key === 'snakes') {
-                    $head = array_shift($element->body);
-                    $last = $element->body[count($element->body) - 1];
-                    foreach ($element->body as $i => $body) {
-                        $x = $body['x'];
-                        $y = $body['y'];
-                        $cells[$y][$x] = ($last['x'] === $x && $last['y'] === $y)
-                            ? static::CHAR_SNAKE_TAIL
-                            : $value;
-                    }
-                    $cells[$head['y']][$head['x']] = static::CHAR_SNAKE_HEAD;
-                } else {
-                    $cells[$element['y']][$element['x']] = $value;
-                }
+        // Add food
+        foreach ($this->food as $food) {
+            $cells[$food['y']][$food['x']] = static::CHAR_FOOD;
+        }
+
+        // Add hazards
+        foreach ($this->hazards as $hazard) {
+            $cells[$hazard['y']][$hazard['x']] = static::CHAR_HAZARD;
+        }
+
+        // Add snakes with distinct symbols
+        $enemyIndex = 0;
+        foreach ($this->snakes as $snake) {
+            if (empty($snake->body)) {
+                continue;
             }
+
+            $isYou = ($this->youId !== null && $snake->id === $this->youId);
+
+            if ($isYou) {
+                $headChar = static::CHAR_YOU_HEAD;
+                $bodyChar = static::CHAR_YOU_BODY;
+            } else {
+                $letter = static::ENEMY_LETTERS[$enemyIndex % count(static::ENEMY_LETTERS)];
+                $headChar = $letter;
+                $bodyChar = strtolower($letter);
+                $enemyIndex++;
+            }
+
+            // Clone body array so we don't modify the original
+            $body = $snake->body;
+            $head = array_shift($body);
+
+            // Draw body segments
+            foreach ($body as $segment) {
+                $x = $segment['x'];
+                $y = $segment['y'];
+                $cells[$y][$x] = $bodyChar;
+            }
+
+            // Draw head on top
+            $cells[$head['y']][$head['x']] = $headChar;
         }
 
         return $cells;

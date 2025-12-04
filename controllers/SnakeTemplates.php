@@ -1,7 +1,11 @@
-<?php namespace Winter\Battlesnake\Controllers;
+<?php
 
-use BackendMenu;
+namespace Winter\Battlesnake\Controllers;
+
 use Backend\Classes\Controller;
+use Backend\Facades\Backend;
+use Winter\Battlesnake\Classes\Snake;
+use Winter\Storm\Support\Facades\Flash;
 
 /**
  * Snake Templates Backend Controller
@@ -16,10 +20,21 @@ class SnakeTemplates extends Controller
         \Backend\Behaviors\ListController::class,
     ];
 
-    public function __construct()
-    {
-        parent::__construct();
+    public $formLayout = 'fancy';
 
-        BackendMenu::setContext('Winter.Battlesnake', 'battlesnake', 'snaketemplates');
+    /**
+     * AJAX handler to reset strategy values to defaults.
+     */
+    public function onResetStrategy(int $recordId): mixed
+    {
+        $model = $this->formFindModelObject($recordId);
+        $metadata = $model->metadata ?? [];
+        $metadata['strategy'] = Snake::getDefaultStrategy();
+        $model->metadata = $metadata;
+        $model->save();
+
+        Flash::success('Strategy values reset to defaults');
+
+        return redirect()->refresh();
     }
 }

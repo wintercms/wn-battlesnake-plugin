@@ -1,0 +1,13 @@
+{
+  "name": "winter-battlesnake-board",
+  "private": true,
+  "scripts": {
+    "install:board": "cd node_modules/battlesnake-board && npm install",
+    "build:board": "cd node_modules/battlesnake-board && npm run build",
+    "copy:board": "mkdir -p assets && cp -r node_modules/battlesnake-board/build assets/board",
+    "build": "npm run install:board && npm run build:board && npm run copy:board"
+  },
+  "dependencies": {
+    "battlesnake-board": "github:BattlesnakeOfficial/board"
+  }
+}

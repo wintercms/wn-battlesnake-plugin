@@ -11,6 +11,9 @@ trait HasCoordinates
      */
     protected function normalizeCoordinates(array $coordinates): array
     {
+        if (!isset($coordinates['x']) || !isset($coordinates['y'])) {
+            return ['x' => 0, 'y' => 0];
+        }
         return [
             'x' => $coordinates['x'],
             'y' => ($this->height ?? $this->board->height) - $coordinates['y'] - 1,

@@ -12,7 +12,7 @@ modelClass: Winter\Battlesnake\Models\GameLog
 title: 'winter.battlesnake::lang.models.gamelog.label_plural'
 
 # Link URL for each record
-recordUrl: winter/battlesnake/gamelogs/update/:game_id
+recordUrl: winter/battlesnake/gamelogs/preview/:game_id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records

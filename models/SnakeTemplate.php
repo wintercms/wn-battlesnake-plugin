@@ -15,6 +15,84 @@ class SnakeTemplate extends Model
 {
     use \Winter\Storm\Database\Traits\Validation;
 
+    /**
+     * @var array Relations
+     */
+    public $hasMany = [
+        'gameParticipants' => [
+            GameParticipant::class,
+            'key' => 'snake_template_id',
+        ],
+        'turns' => [
+            Turn::class,
+            'key' => 'snake_template_id',
+        ],
+    ];
+
+    public const OPTIONS_HEAD = [
+        'all-seeing',
+        'beluga',
+        'bendr',
+        'bonhomme',
+        'caffeine',
+        'dead',
+        'default',
+        'do-sammy',
+        'earmuffs',
+        'evil',
+        'fang',
+        'gamer',
+        'mlh-gene',
+        'nr-rocket',
+        'pixel',
+        'rbc-bowler',
+        'replit-mark',
+        'rudolph',
+        'safe',
+        'sand-worm',
+        'scarf',
+        'shades',
+        'silly',
+        'ski',
+        'smart-caterpillar',
+        'smile',
+        'snowman',
+        'snow-worm',
+        'tiger-king',
+        'tongue',
+        'trans-rights-scarf',
+        'workout',
+    ];
+
+    public const OPTIONS_TAIL = [
+        'block-bum',
+        'bolt',
+        'bonhomme',
+        'coffee',
+        'curled',
+        'default',
+        'do-sammy',
+        'fat-rattle',
+        'flake',
+        'freckled',
+        'hook',
+        'ice-skate',
+        'mlh-gene',
+        'mouse',
+        'mystic-moon',
+        'nr-rocket',
+        'pixel',
+        'present',
+        'rbc-necktie',
+        'replit-notmark',
+        'round-bum',
+        'sharp',
+        'skinny',
+        'small-rattle',
+        'tiger-tail',
+        'weight',
+    ];
+
     public $rules = [
         'name' => 'required',
         'slug' => 'required',
@@ -36,16 +114,19 @@ class SnakeTemplate extends Model
     {
         return [
             'apiversion' => '1',
-            'author' => $this->metadata['customization']['author'] ?? 'Winter CMS',
-            'color' => $this->metadata['customization']['color'] ?? '#3498db',
-            'head' => $this->metadata['customization']['head'] ?? 'default',
-            'tail' => $this->metadata['customization']['tail'] ?? 'default',
-            'version' => $this->metadata['customization']['version'] ?? $this->updated_at->toDateTimeString(),
+            'author' => $this->metadata['customizations']['author'] ?? 'Winter CMS',
+            'color' => $this->metadata['customizations']['color'] ?? '#3498db',
+            'head' => $this->metadata['customizations']['head'] ?? 'default',
+            'tail' => $this->metadata['customizations']['tail'] ?? 'default',
+            'version' => $this->metadata['customizations']['version'] ?? ($this->updated_at ?? now())->toDateTimeString(),
         ];
     }
 
     public function getUrlAttribute(): string
     {
+        if (!$this->exists) {
+            return '';
+        }
         return url("api/bs/{$this->slug}/{$this->metadata['password']}");
     }
 
@@ -95,6 +176,17 @@ class SnakeTemplate extends Model
 
         eval($fileContents);
 
+        // Pass template ID in options
+        $options['templateId'] = $this->id;
+
+        // Pass strategy overrides from metadata (filter out null/empty values)
+        $strategy = array_filter($this->metadata['strategy'] ?? [], function ($value) {
+            return $value !== null && $value !== '';
+        });
+        if (!empty($strategy)) {
+            $options['strategy'] = $strategy;
+        }
+
         return new $className($state, $options);
     }
 
@@ -112,40 +204,7 @@ class SnakeTemplate extends Model
      */
     public function getHeadOptions(): array
     {
-        return [
-            'all-seeing',
-            'beluga',
-            'bendr',
-            'bonhomme',
-            'caffeine',
-            'dead',
-            'default',
-            'do-sammy',
-            'earmuffs',
-            'evil',
-            'fang',
-            'gamer',
-            'mlh-gene',
-            'nr-rocket',
-            'pixel',
-            'rbc-bowler',
-            'replit-mark',
-            'rudolph',
-            'safe',
-            'sand-worm',
-            'scarf',
-            'shades',
-            'silly',
-            'ski',
-            'smart-caterpillar',
-            'smile',
-            'snowman',
-            'snow-worm',
-            'tiger-king',
-            'tongue',
-            'trans-rights-scarf',
-            'workout',
-        ];
+        return array_combine(static::OPTIONS_HEAD, static::OPTIONS_HEAD);
     }
 
     /**
@@ -153,33 +212,6 @@ class SnakeTemplate extends Model
      */
     public function getTailOptions(): array
     {
-        return [
-            'block-bum',
-            'bolt',
-            'bonhomme',
-            'coffee',
-            'curled',
-            'default',
-            'do-sammy',
-            'fat-rattle',
-            'flake',
-            'freckled',
-            'hook',
-            'ice-skate',
-            'mlh-gene',
-            'mouse',
-            'mystic-moon',
-            'nr-rocket',
-            'pixel',
-            'present',
-            'rbc-necktie',
-            'replit-notmark',
-            'round-bum',
-            'sharp',
-            'skinny',
-            'small-rattle',
-            'tiger-tail',
-            'weight',
-        ];
+        return array_combine(static::OPTIONS_TAIL, static::OPTIONS_TAIL);
     }
 }

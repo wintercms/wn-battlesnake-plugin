@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <script>
+    // Parse game data from URL hash BEFORE anything else loads
+    (function() {
+        window.__BATTLESNAKE_REPLAY_DATA__ = null;
+
+        var hashData = window.location.hash.substring(1);
+        if (hashData) {
+            try {
+                window.__BATTLESNAKE_REPLAY_DATA__ = JSON.parse(decodeURIComponent(hashData));
+            } catch (e) {
+                console.error('Failed to parse game data:', e);
+            }
+        }
+
+        var gameData = window.__BATTLESNAKE_REPLAY_DATA__;
+        if (!gameData || !gameData.frames || gameData.frames.length === 0) {
+            return;
+        }
+
+        // Convert our frame format to engine event format
+        function frameToEngineEvent(frame) {
+            return {
+                Type: 'frame',
+                Data: {
+                    Turn: frame.turn,
+                    Snakes: frame.snakes.map(function(s) {
+                        return {
+                            ID: s.id,
+                            Name: s.name,
+                            Author: s.author || '',
+                            Color: s.color,
+                            HeadType: s.head,
+                            TailType: s.tail,
+                            Health: s.health,
+                            Latency: parseInt(s.latency) || 0,
+                            Body: s.body.map(function(p) { return { X: p.x, Y: p.y }; }),
+                            Death: s.elimination ? {
+                                Turn: s.elimination.turn,
+                                Cause: s.elimination.cause,
+                                EliminatedBy: s.elimination.by
+                            } : null
+                        };
+                    }),
+                    Food: frame.food.map(function(p) { return { X: p.x, Y: p.y }; }),
+                    Hazards: (frame.hazards || []).map(function(p) { return { X: p.x, Y: p.y }; })
+                }
+            };
+        }
+
+        // Build game info
+        var gameInfo = {
+            Game: {
+                ID: gameData.Game.ID,
+                Width: gameData.frames[0].width,
+                Height: gameData.frames[0].height,
+                Ruleset: gameData.Game.Ruleset,
+                Map: gameData.Game.Map,
+                Timeout: gameData.Game.Timeout,
+                Source: gameData.Game.Source
+            }
+        };
+
+        // Create MockWebSocket that immediately sends all frames
+        var OriginalWebSocket = window.WebSocket;
+        window.WebSocket = function MockWebSocket(url) {
+            var self = this;
+            this.url = url;
+            this.readyState = 0;
+            this.onopen = null;
+            this.onmessage = null;
+            this.onclose = null;
+            this.onerror = null;
+
+            // Check if this is for our game
+            if (url.includes('/games/') && url.includes('/events')) {
+                setTimeout(function() {
+                    self.readyState = 1;
+                    if (self.onopen) self.onopen({ type: 'open' });
+
+                    // Send all frames with small delays
+                    var frames = gameData.frames;
+                    frames.forEach(function(frame, index) {
+                        setTimeout(function() {
+                            if (self.onmessage) {
+                                self.onmessage({
+                                    data: JSON.stringify(frameToEngineEvent(frame))
+                                });
+                            }
+                            // Send game_end after last frame
+                            if (index === frames.length - 1) {
+                                setTimeout(function() {
+                                    if (self.onmessage) {
+                                        self.onmessage({
+                                            data: JSON.stringify({ Type: 'game_end' })
+                                        });
+                                    }
+                                }, 10);
+                            }
+                        }, index * 2);
+                    });
+                }, 50);
+            } else {
+                // Fall back to real WebSocket for other URLs
+                return new OriginalWebSocket(url);
+            }
+        };
+        window.WebSocket.prototype = {
+            close: function() {
+                this.readyState = 3;
+                if (this.onclose) this.onclose({ type: 'close' });
+            },
+            send: function() {}
+        };
+        window.WebSocket.CONNECTING = 0;
+        window.WebSocket.OPEN = 1;
+        window.WebSocket.CLOSING = 2;
+        window.WebSocket.CLOSED = 3;
+
+        // Mock fetch for game info
+        var originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+            if (typeof url === 'string' && url.includes('/games/') && !url.includes('/events')) {
+                return Promise.resolve({
+                    ok: true,
+                    status: 200,
+                    json: function() { return Promise.resolve(gameInfo); }
+                });
+            }
+            return originalFetch.apply(this, arguments);
+        };
+    })();
+    </script>
+    <!-- Load the board's CSS and JS modules -->
+    <link rel="modulepreload" href="./_app/immutable/entry/start.8fdb5989.js">
+    <link rel="modulepreload" href="./_app/immutable/chunks/scheduler.ceb96720.js">
+    <link rel="modulepreload" href="./_app/immutable/chunks/singletons.5771db93.js">
+    <link rel="modulepreload" href="./_app/immutable/chunks/index.7184f1a5.js">
+    <link rel="modulepreload" href="./_app/immutable/entry/app.e882fd12.js">
+    <link rel="modulepreload" href="./_app/immutable/chunks/index.ee24464c.js">
+</head>
+<body data-sveltekit-preload-data="hover">
+    <div style="display: contents">
+        <script>
+        {
+            __sveltekit_1uqkxx1 = {
+                base: new URL(".", location).pathname.slice(0, -1),
+                env: {}
+            };
+
+            const element = document.currentScript.parentElement;
+
+            Promise.all([
+                import("./_app/immutable/entry/start.8fdb5989.js"),
+                import("./_app/immutable/entry/app.e882fd12.js")
+            ]).then(([kit, app]) => {
+                kit.start(app, element);
+            });
+        }
+        </script>
+    </div>
+</body>
+</html>

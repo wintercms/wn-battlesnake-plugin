@@ -3,11 +3,16 @@
 # ===================================
 
 columns:
+    snake_name:
+        label: 'winter.battlesnake::lang.models.turn.snake'
+        sortable: false
+        valueFrom: snake_name
     turn:
         label: 'winter.battlesnake::lang.models.turn.turn'
         searchable: true
         sortable: true
         type: number
+        defaultSort: asc
     board_image:
         label: 'winter.battlesnake::lang.models.turn.board_image'
         type: image
@@ -18,7 +23,6 @@ columns:
         label: 'winter.battlesnake::lang.models.turn.board_string'
         type: partial
         path: $/winter/battlesnake/models/turn/column.board_string.php
-        clickable: false
     move:
         label: 'winter.battlesnake::lang.models.turn.move'
         searchable: true

@@ -43,5 +43,10 @@ class GameLog extends Model
             'key' => 'game_id',
             'otherKey' => 'game_id',
         ],
+        'participants' => [
+            GameParticipant::class,
+            'key' => 'game_id',
+            'otherKey' => 'game_id',
+        ],
     ];
 }
