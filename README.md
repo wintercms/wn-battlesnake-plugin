@@ -8,8 +8,6 @@ Playground for building & debugging battlesnakes in Winter CMS.
 
 This plugin is available for installation via [Composer](http://getcomposer.org/).
 
-**NOTE:** This is a WORK-IN-PROGRESS BETA plugin for integrating Laravel Passport with WinterCMS. It is not complete, and no guarantees are made in regards to it's working condition. Please test out and offer improvements / bug reports.
-
 ```bash
 composer require winter/wn-battlesnake-plugin
 ```
